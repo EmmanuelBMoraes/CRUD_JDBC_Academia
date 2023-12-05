@@ -21,6 +21,15 @@ public class AlunoService {
         }
     }
 
+    public boolean removerAluno(String chave){
+        try {
+            dao.remover(chave);
+            return true;
+        } catch (SQLException se) {
+            return false;
+        }
+    }
+
     public Aluno recuperarAluno(String cpf){
         try {
             return dao.recuperar(cpf);

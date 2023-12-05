@@ -64,8 +64,26 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
 
     @Override
     public void remover(String chave) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remover'");
+        Connection con = null;
+        PreparedStatement ppst = null;
+
+        try {
+            con = gerenciador.getConnection();
+
+            String sql = "delete from aluno where cpf = ?";
+
+            ppst = con.prepareStatement(sql);
+            ppst.setString(CPF_COLUMN_ORDER, chave);
+            int qtd = ppst.executeUpdate();
+
+            if(qtd == 0) throw new SQLException("Tupla não encontrada");
+        } catch (SQLException se) {
+            se.printStackTrace();
+            throw se;
+        } finally{
+            if(con !=null) con.close();
+            if(ppst != null) ppst.close();
+        }
     }
 
     @Override
