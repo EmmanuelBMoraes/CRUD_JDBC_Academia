@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class JDBC {
     static final String JDBC_DRIVER = "org.postgresql.Driver";
-    static final String DB_URL = "jdbc:postgresql://localhost:5432/academia";
+    static final String DB_URL = "jdbc:postgresql://localhost:5432/Academia";
 
     static final String USER = "postgres";
-	static final String PASS = "admin";
+	static final String PASS = "Mortadela1";
 
     private static JDBC instance = null;
 
@@ -26,6 +26,7 @@ public class JDBC {
     }
 
     public Connection getConnection(){
+        //CRIA A CONEXÃO
         Connection con = null;
         try {
             con = DriverManager.getConnection(DB_URL, USER, PASS);

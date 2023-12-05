@@ -2,8 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Aluno;
@@ -78,7 +80,6 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
 
             if(qtd == 0) throw new SQLException("Tupla não encontrada");
         } catch (SQLException se) {
-            se.printStackTrace();
             throw se;
         } finally{
             if(con !=null) con.close();
@@ -87,15 +88,67 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
     }
 
     @Override
-    public void atualizar(Aluno entity) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+    public void atualizar(Aluno aluno) throws SQLException {
+        Connection con = null;
+        PreparedStatement ppst = null;
+
+        try {
+            con = gerenciador.getConnection();
+
+            String sql = "update aluno set nome = ?, matricula = ?, rua = ?, id_ficha_aluno = ? where cpf = ?";
+
+            ppst = con.prepareStatement(sql);
+            ppst.setString(1, aluno.getNome());
+            ppst.setString(2, aluno.getMatricula());
+            ppst.setString(3, aluno.getRua());
+            ppst.setInt(4, aluno.getIdFicha());
+            ppst.setString(5, aluno.getCPF());
+            int qtd = ppst.executeUpdate();
+
+            if(qtd == 0) throw new SQLException("Túpla não encontrada!");
+
+        } catch (SQLException se) {
+            throw se;
+        } finally{
+            if(con != null) con.close();
+            if(ppst != null) ppst.close();
+        }
     }
 
     @Override
     public List<Aluno> listar() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listar'");
+        List<Aluno> alunos = null;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            con = gerenciador.getConnection();
+
+            String sql = "select * from aluno";
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            alunos = new ArrayList<>();
+
+            while(rs.next()){
+                String Cpf = rs.getString(CPF_COLUMN_NAME);
+                String nome = rs.getString(NOME_COLUMN_NAME);
+                String matricula = rs.getString(MATRICULA_COLUMN_NAME);
+                String rua = rs.getString(RUA_COLUMN_NAME);
+                int id_ficha_aluno =  rs.getInt(ID_FICA_ALUNO_COLUMN_NAME);
+
+                Aluno aluno = new Aluno(Cpf, nome, matricula, rua, id_ficha_aluno);
+                alunos.add(aluno);
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } finally{
+            if(con != null)con.close();
+			if(st != null)st.close();
+			if(rs != null) rs.close();
+        }
+        return alunos;
     }
 
     @Override
@@ -118,7 +171,7 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
                 String Cpf = rs.getString(CPF_COLUMN_NAME);
                 String nome = rs.getString(NOME_COLUMN_NAME);
                 String matricula = rs.getString(MATRICULA_COLUMN_NAME);
-                String rua = rs.getString(MATRICULA_COLUMN_NAME);
+                String rua = rs.getString(RUA_COLUMN_NAME);
                 int id_ficha_aluno =  rs.getInt(ID_FICA_ALUNO_COLUMN_NAME);
 
                 aluno = new Aluno(Cpf, nome, matricula, rua, id_ficha_aluno);

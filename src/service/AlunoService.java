@@ -3,6 +3,7 @@ package service;
 import java.sql.SQLException;
 import entities.Aluno;
 import dao.AlunoDAO;
+import java.util.List;
 
 public class AlunoService {
     
@@ -27,6 +28,23 @@ public class AlunoService {
             return true;
         } catch (SQLException se) {
             return false;
+        }
+    }
+
+    public boolean atualizarAluno(Aluno aluno){
+        try {
+            dao.atualizar(aluno);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<Aluno> listarAlunos(){
+        try {
+            return dao.listar();
+        } catch (Exception e) {
+            return null;
         }
     }
 
