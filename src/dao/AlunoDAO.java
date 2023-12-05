@@ -34,9 +34,32 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
     }
 
     @Override
-    public void inserir(Aluno entity) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'inserir'");
+    public void inserir(Aluno aluno) throws SQLException {
+        Connection con = null;
+        PreparedStatement ppst = null;
+
+        try {
+            con = gerenciador.getConnection();
+
+            String sql = "insert into aluno(cpf, nome, matricula, rua, id_ficha_aluno) values (?,?,?,?,?)";
+
+            ppst = con.prepareStatement(sql);
+            ppst.setString(CPF_COLUMN_ORDER, aluno.getCPF());
+            ppst.setString(NOME_COLUMN_ORDER, aluno.getNome());
+            ppst.setString(MATRICULA_COLUMN_ORDER, aluno.getMatricula());
+            ppst.setString(RUA_COLUMN_ORDER, aluno.getRua());
+            ppst.setInt(ID_FICA_ALUNO_COLUMN_ORDER, aluno.getIdFicha());
+
+            int qtd = ppst.executeUpdate();
+            if (qtd == 0) throw new SQLException("Túpla não inserida!!!!!");
+        } catch (SQLException se) {
+            se.printStackTrace();
+            throw se;
+        }
+        finally{
+            if(ppst != null) ppst.close();
+            if(ppst != null) con.close();
+        }
     }
 
     @Override

@@ -12,6 +12,15 @@ public class AlunoService {
         this.dao = new AlunoDAO();
     }
 
+    public boolean salvarAluno(Aluno aluno){
+        try {
+            this.dao.inserir(aluno);
+            return true;
+        } catch (SQLException se) {
+            return false;
+        }
+    }
+
     public Aluno recuperarAluno(String cpf){
         try {
             return dao.recuperar(cpf);
