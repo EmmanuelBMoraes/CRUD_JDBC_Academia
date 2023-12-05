@@ -35,7 +35,7 @@ public class AlunoService {
         try {
             dao.atualizar(aluno);
             return true;
-        } catch (Exception e) {
+        } catch (SQLException se) {
             return false;
         }
     }
@@ -43,7 +43,7 @@ public class AlunoService {
     public List<Aluno> listarAlunos(){
         try {
             return dao.listar();
-        } catch (Exception e) {
+        } catch (SQLException se) {
             return null;
         }
     }
@@ -53,6 +53,15 @@ public class AlunoService {
             return dao.recuperar(cpf);
         } catch (SQLException se) {
             return null;
+        }
+    }
+
+    public boolean deletarTodos(){
+        try {
+            dao.removerTodos();
+            return true;
+        } catch (SQLException se) {
+            return false;
         }
     }
 }

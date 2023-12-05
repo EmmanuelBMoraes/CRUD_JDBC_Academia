@@ -16,6 +16,7 @@ import server.JDBC;
 public class AlunoDAO implements GenericDAO<String, Aluno>{
      
     //NUMERO DAS COLUNAS DA TUPLA
+    //OBS: ACHEI MEIO INÚTIL ESSA PARTE MAS FZ OQ NÉ
     public static final int CPF_COLUMN_ORDER = 1;
     public static final int NOME_COLUMN_ORDER = 2; 
     public static final int MATRICULA_COLUMN_ORDER = 3;
@@ -189,8 +190,23 @@ public class AlunoDAO implements GenericDAO<String, Aluno>{
 
     @Override
     public void removerTodos() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removerTodos'");
+        Connection con = null;
+        Statement st = null;
+
+        try {
+            con = gerenciador.getConnection();
+
+            String sql = "delete from aluno";
+
+            st = con.createStatement();
+            st.executeUpdate(sql);
+
+        } catch (SQLException se) {
+            throw se;
+        } finally{
+            if(con != null) con.close();
+            if(st != null) st.close();
+        }
     }
 
     

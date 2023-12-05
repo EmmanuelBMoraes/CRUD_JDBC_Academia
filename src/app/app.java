@@ -15,9 +15,12 @@ public class app {
                 System.out.println("Aluno não encontrado!");
                 return false;
             }
-            System.out.println("Nome: "+aluno.getNome());
+            System.out.println("\nNome: "+aluno.getNome());
             System.out.println("Ficha: "+aluno.getIdFicha());
-            System.out.println("Rua: "+aluno.getRua());
+            if(aluno.getRua() == null){
+                    System.out.println("Rua: Não informado");
+                }
+                else{System.out.println("Rua: "+aluno.getRua());}
             System.out.println("Matrícula: "+aluno.getMatricula());
             
         } catch (Exception e) {
@@ -27,7 +30,7 @@ public class app {
     }
 
     public static String consultarCPF(){
-        System.out.println("Digite o cpf do aluno: ");
+        System.out.print("Digite o cpf do aluno: ");
         String cpf = teclado.nextLine();
         try {
             AlunoService service = new AlunoService();
@@ -83,7 +86,7 @@ public class app {
     }
 
     public static void inserir(){
-        System.out.println("Inserindo novo aluno: ");
+        System.out.println("Inserindo novo aluno");
         System.out.print("Digite o cpf do aluno: ");
         String cpfInserir = teclado.nextLine();
         System.out.print("Digite o nome do aluno: ");
@@ -108,11 +111,11 @@ public class app {
     public static void listarTodos(){
         try {
             AlunoService service = new AlunoService();
-            for(Aluno aluno: service.listarAlunos()){
-                if(service.listarAlunos() == null){
+            if(service.listarAlunos().size() < 1){
                     System.out.println("Nenhum aluno encontrado!");
                     return;
                 }
+            for(Aluno aluno: service.listarAlunos()){
                 System.out.println("Nome: "+aluno.getNome());
                 System.out.println("Ficha: "+aluno.getIdFicha());
                 if(aluno.getRua() == null){
@@ -126,7 +129,47 @@ public class app {
         }
     }
 
+    public static void deletarTodos(){
+        try {
+            AlunoService service = new AlunoService();
+            if(service.deletarTodos()) System.out.println("Operação concluída com sucesso!");
+            else{System.out.println("Falha na operação.......");}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void main(String[] args) {
-        listarTodos();
+        while (true) {
+            System.out.println("\nDigite 1 para: inserir um aluno.\nDigite 2 para consultar um aluno por cpf.\nDigite 3 para listar todos os alunos.\nDigite 4 para atualizar um aluno.\nDigite 5 para deletar um aluno\nDigite 6 para deletar TODOS os alunos.\nDigite 0 para sair.");
+            System.out.print("Digite a opção escolhida: ");
+            String option = teclado.next();
+            teclado.nextLine();
+            System.out.println("\n");
+            switch (option) {
+                case "0":
+                    return;
+                case "1":
+                    inserir();
+                    break;
+                case "2":
+                    consultar();
+                    break;
+                case "3":
+                    listarTodos();
+                    break;
+                case "4":
+                    atualizar();
+                    break;
+                case "5":
+                    deletar();
+                    break;
+                case "6":
+                    deletarTodos();
+                    break;
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA........");
+                    break;
+            }
+        }
     }
 }
