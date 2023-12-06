@@ -101,8 +101,8 @@ public class app {
         Aluno alunoInserir = new Aluno(cpfInserir, nome, mat, rua, id_ficha_aluno);
         try {
             AlunoService serviceInserir = new AlunoService();
-            serviceInserir.salvarAluno(alunoInserir);
-            System.out.println("Aluno inserido com sucesso!");
+            if(serviceInserir.salvarAluno(alunoInserir)) System.out.println("Aluno inserido com sucesso!");
+            else{System.out.println("Erro na inserção do aluno!");}
         } catch (Exception e) {
             System.out.println("Aluno não inserido!");
         }
