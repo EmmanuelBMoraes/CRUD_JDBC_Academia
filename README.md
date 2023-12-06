@@ -5,5 +5,6 @@
   Samara Porto
   George Lucas
 </P>
+<br>
   
 <h2>Lembrar de trocar o user e password do server em "server/JDBC.java" </h2> 
