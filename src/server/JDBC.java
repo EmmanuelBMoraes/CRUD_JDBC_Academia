@@ -9,7 +9,7 @@ public class JDBC {
     static final String DB_URL = "jdbc:postgresql://localhost:5432/academia";
 
     static final String USER = "postgres";
-	static final String PASS = "?";
+	static final String PASS = "4321";
 
     private static JDBC instance = null;
 
